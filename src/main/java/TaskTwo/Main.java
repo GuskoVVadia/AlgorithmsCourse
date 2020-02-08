@@ -9,8 +9,6 @@ public class Main {
 
         ArrayTask array = new ArrayTask(15);
         array.fillRandom();
-        array.sortBubble();
-
 
     }
 }

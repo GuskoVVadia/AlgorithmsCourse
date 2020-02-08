@@ -1,5 +1,8 @@
 /*
 Класс для работы с массивом типа int.
+Методы выводят время своей отработки в ms.
+Дл удобства работы методы не объявлена как static, т.к. при таком архитектуре методом пришлось бы создавать геттер на
+приватное поле массива, что повлекло за собой нарушение принципа инкапсуляции.
  */
 package TaskTwo;
 
@@ -36,7 +39,11 @@ public class ArrayTask {
         return local;
     }
 
-
+    /*
+    Метод добавления значения типа int в "хвост" внутреннего массива, с проверкой возможности добавления.
+    @param value значение, которое нужно добавить в массив
+    @return boolean при добавление элемента в массив возвращет true, если массив заполнен возвращает false
+     */
     public boolean addElement(int value){
         long time = System.currentTimeMillis();
         boolean status = false;
@@ -49,6 +56,12 @@ public class ArrayTask {
         return status;
     }
 
+    /*
+    Удаление value из массива, с проверкой наличия этого элемента во внутреннем массиве. Удаляет первое и единственное
+    вхождение этого элемента из массива, с последующим сдвигом элементов к началу массива.
+    @param value значение типа int
+    @return boolean возвращает true в случае успеха, false в противном случае
+     */
     public boolean delElement(int value){
         int i = findElement(value);
         boolean status = false;
@@ -64,6 +77,11 @@ public class ArrayTask {
         return status;
     }
 
+    /*
+    Метод используя линейный алгоритм и метод nextInt() из объекта типа Random, проходится по всей длинне массива
+    и заполняет массив случайными числами в диапозоне от 0 до указанного параметра.
+    @param bound число, случащее крайней правой границей для генерации случайных чисел, которыми заполняется массив.
+     */
     public void fillRandom(int bound){
         Random ran = new Random();
         long time = System.currentTimeMillis();
@@ -73,6 +91,10 @@ public class ArrayTask {
         System.out.println("time fillRandom: " + (System.currentTimeMillis() - time) + " ms.");
     }
 
+    /*
+    Метод используя линейный алгоритм и метод nextInt() из объекта типа Random, проходится по всей длинне массива
+    и заполняет массив случайными числами диапозона int.
+     */
     public void fillRandom(){
         Random ran = new Random();
         long time = System.currentTimeMillis();
@@ -82,56 +104,23 @@ public class ArrayTask {
         System.out.println("time fillRandom: " + (System.currentTimeMillis() - time) + " ms.");
     }
 
-    public void addShift(int value){
-        long time = System.currentTimeMillis();
-        int[] local = new int[this.array.length + 1];
-        copyArray(this.array,0, this.array.length, local, 0, this.array.length);
-        local[this.array.length] = value;
-        this.size++;
-        this.array = local;
-        System.out.println("time addShift: " + (System.currentTimeMillis() - time) + " ms.");
-    }
-
-    public void addShift(int ... a){
-        long time = System.currentTimeMillis();
-        int[] local = new int[this.array.length + a.length];
-        copyArray(this.array, 0, this.array.length, local, 0, this.array.length);
-        copyArray(a, 0, a.length, local, this.array.length, local.length);
-        this.size += a.length;
-        this.array = local;
-        System.out.println("time addShift: " + (System.currentTimeMillis() - time) + " ms.");
-    }
-
-    public boolean delShift(int value){
-        boolean status = false;
-        long time = System.currentTimeMillis();
-        int i = findElement(value);
-        if (i >= 0){
-            int[] local = new int[this.array.length - 1];
-            copyArray(this.array, 0, i, local, 0, i);
-            copyArray(this.array, i + 1, this.array.length, local, i, local.length);
-            this.array = local;
-            System.out.println("time delShift: " + (System.currentTimeMillis() - time) + " ms.");
-            this.size--;
-        }
-        return status;
-    }
-
-
-    private void copyArray(int[] arrayOut, int startOut, int endOut, int[] arrayIn, int startIn, int endIn){
-        int i;
-        int j;
-        for (i = startIn , j = startOut; i < endIn && j < endOut; i++, j++) {
-            arrayIn[i] = arrayOut[j];
-        }
-    }
-
+    /*
+    Приватный метод перемены элементов в массиве местами.
+    @param array массив, в котором происходит перемена мест элементов
+    @param i индекс первого числа в массиве
+    @param j индекс второго числа в массиве
+     */
     private void changeElementArray(int[] array, int j, int i) {
         int local = array[j];
         array[j] = array[i];
         array[i] = local;
     }
 
+    /*
+    Метод сортировки "пузырьком".
+    Алгоритм обхода массива двумя циклами - O(n * n) . Обход массива произойдёт даже в случае, когда массив уже отсортирован.
+    @param array массив для сортировки
+     */
     public void sortBubble(){
         long time = System.currentTimeMillis();
         for (int i = this.size - 1; i >= 0; i--) {
@@ -141,9 +130,14 @@ public class ArrayTask {
                 }
             }
         }
-        System.out.println("sortBubble:" + (System.currentTimeMillis() - time));
+        System.out.println("sortBubble: " + (System.currentTimeMillis() - time));
     }
 
+    /*
+    Метод сортировки "выбором".
+    Алгоритм обхода массива с маркером. Маркер наибольшего числа в массиве.
+    @param массив для сортировки.
+     */
     public void sortSelect(){
         long time = System.currentTimeMillis();
         int mark;
@@ -156,9 +150,14 @@ public class ArrayTask {
             }
             changeElementArray(this.array, i, mark);
         }
-        System.out.println("sortSelect:" + (System.currentTimeMillis() - time));
+        System.out.println("sortSelect: " + (System.currentTimeMillis() - time));
     }
 
+    /*
+    Сортировка "вставкой".
+    Алгоритм метода - внешний цикл линейный, внутренний влючается при наличии меньшего соседа слева.
+    @param array массив для сортировки
+     */
     public void sortInsert(){
         long time = System.currentTimeMillis();
         for (int i = 1; i < this.size; i++) {
@@ -169,24 +168,35 @@ public class ArrayTask {
             }
             this.array[j] = local;
         }
-        System.out.println("insertSortMTaskTwo:" + (System.currentTimeMillis() - time));
+        System.out.println("sortInsert: " + (System.currentTimeMillis() - time));
     }
 
+    /*
+    Поиск по половинам, бинарный.
+    Переделан из цикла while в цикл for.
+    Конструкция try finally применена для вывода времени выполнения метода в любом случае.
+    @param value искомое значение
+    @return int возвращает индекс элемента в массиве, если же такого нет - возвращает -1.
+     */
     public int findBinary(int value){
         int right;
         int left;
         int mid;
         int answer = -1;
         long time = System.currentTimeMillis();
-        for ( right = this.size, left = 0, mid = ((right + left) / 2); left <= right; mid = ((right + left) / 2)){
-            if (this.array[mid] == value){
-                answer = mid;
+        try {
+            for (right = this.size, left = 0, mid = ((right + left) / 2); left <= right; mid = ((right + left) / 2)) {
+                if (this.array[mid] == value) {
+                    answer = mid;
+                }
+                if (this.array[mid] < value) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
             }
-            if (this.array[mid] < value){
-                left = mid + 1;
-            }else {
-                right = mid - 1;
-            }
+        }finally {
+            System.out.println("findBinary: " + (System.currentTimeMillis() - time));
         }
         return answer;
     }
