@@ -6,108 +6,97 @@
  */
 package TaskThree;
 
-public class DequeTask implements queueAddition{
+public class DequeTask <T> implements queueAddition{
 
-    private int[] array;
-    private int head;
-    private int tail;
-    private int startHead;
-    private int startTail;
-    private int markHead;
-    private int markTail;
+    private T[] array;
+    private int right;
+    private int left;
     private int sizeMax;
     private int countItems;
 
+
+
+    @SuppressWarnings("unchecked")
     public DequeTask(int size) {
         this.sizeMax = size;
-        this.array = new int[size];
-        this.startHead = size / 2;
-        this.head = startHead;
-        this.startTail = startHead + 1;
-        this.tail = startTail;
+        this.array = (T[]) new Object[size];
+        this.right = size / 2;
+        this.left = right;
         this.countItems = 0;
 
-        this.markHead = startHead;
-        this.markTail = startTail;
     }
 
-    public void insertTail(int value){
-        if (tail >= sizeMax){
-            tail = 0;
+    public void addFirst(T element){
+        if (countItems != 0){
+            this.right++;
         }
-        this.array[tail++] = value;
-        countItems++;
+        if (this.right >= sizeMax){
+            this.right = 0;
+        }
+        this.array[this.right] = element;
+        this.countItems++;
     }
 
-    public void insertHead(int value){
-        if (head < 0){
-            head = sizeMax - 1;
+    public T removeFirst(){
+        if (countItems == 0){
+            return null;
         }
-        this.array[head--] = value;
-        countItems++;
+        if (this.right <= 0){
+            this.right = sizeMax - 1;
+        }
+        T local = this.array[this.right];
+        this.array[this.right] = null;
+        this.right--;
+        this.countItems--;
+        return local;
     }
 
-    public int firstHead(){
-        if (markHead < 0){
-            markHead = sizeMax - 1;
+    public T getFirst(){
+        if (countItems == 0){
+            return null;
         }
-        if (markHead == head){
-            throw new NullPointerException();
+        if (this.right <= 0){
+            this.right = sizeMax - 1;
         }
-        countItems--;
-        return array[markHead--];
+        return this.array[this.right];
     }
 
-    public int firstTail(){
-        if (markTail > sizeMax - 1){
-            markTail = 0;
+    public void addLast(T element){
+        if (countItems != 0){
+            this.left--;
         }
-        if (markTail == tail){
-            throw new NullPointerException();
+        if (this.left <= 0){
+            this.left = sizeMax - 1;
         }
-        countItems--;
-        return array[markTail++];
+        this.array[this.left] = element;
+        this.countItems++;
     }
 
-    public int removeTail(){
-        if (tail <= 0){
-            tail = sizeMax;
+    public T removeLast(){
+        if (countItems == 0){
+            return null;
         }
-        countItems--;
-        return this.array[--tail];
-    }
-
-    public int removeHead(){
-        head++;
-        if (head == sizeMax){
-            head = 0;
+        if (this.array[this.left] == null){
+            this.left--;
         }
-        countItems--;
-        return array[head];
-    }
-
-    public int peekHead(){
-        int local = head + 1;
-        if (local > sizeMax - 1){
-            local = 0;
+        if (this.left < 0){
+            this.left = sizeMax - 1;
         }
-        return array[local];
+        T local = this.array[this.left];
+        this.array[this.left] = null;
+        this.countItems--;
+        return local;
     }
 
-    public int peekTail(){
-        int local = tail - 1;
-        if (local < 0){
-            local = sizeMax - 1;
+    public T getLast(){
+
+        if (countItems == 0){
+            return null;
         }
-        return array[local];
-    }
-
-    public int peekFirstHead(){
-        return array[markHead];
-    }
-
-    public int peekFirstTail(){
-        return array[markTail];
+        if (this.left < 0){
+            this.left = sizeMax - 1;
+        }
+        return this.array[this.left];
     }
 
     @Override

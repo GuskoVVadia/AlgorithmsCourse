@@ -6,15 +6,22 @@ import java.io.InputStreamReader;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        DequeTask dt = new DequeTask(5);
-        dt.insertHead(5);
-        dt.insertHead(4);
-        dt.insertHead(3);
-        System.out.println(dt.removeTail());
-        System.out.println(dt.removeTail());
-        System.out.println(dt.removeTail());
 
+        DequeTask<Integer> deque = new DequeTask<>(5);
+        deque.addFirst(10);
+        deque.addFirst(20);
+        deque.addFirst(30);
+        deque.addFirst(40);
 
+        Integer last = deque.getLast();
+        Integer remove = deque.removeLast();
+
+        deque.addLast(15);
+
+        while (deque.size() != 0)
+            System.out.println(deque.removeLast());
+
+        System.out.println();
     }
 
     public static void getQueueTask(){
