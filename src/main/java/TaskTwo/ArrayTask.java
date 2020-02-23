@@ -104,6 +104,13 @@ public class ArrayTask {
         System.out.println("time fillRandom: " + (System.currentTimeMillis() - time) + " ms.");
     }
 
+    public static void getRandomArray(int[] localArray, int bound){
+        Random ran = new Random();
+        for (int i = 0; i < localArray.length; i++) {
+            localArray[i] = ran.nextInt(bound);
+        }
+    }
+
     /*
     Приватный метод перемены элементов в массиве местами.
     @param array массив, в котором происходит перемена мест элементов
