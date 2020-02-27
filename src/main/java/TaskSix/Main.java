@@ -9,30 +9,45 @@ import java.util.Random;
 public class Main {
 
     public static final int COUNT = 20;
+    public static final int STEP = 63;
 
     public static void main(String[] args) {
-        BinaryTreeFind<String, Integer> answer;
 
         for (int i = 0; i < COUNT; i++) {
-            answer = getFillTree();
-            System.out.println("Дерево симетрично? " + answer.isSymmetricTree());
-            System.out.println("Дерево зеркально? " + answer.isMirrorTree());
+            BinaryTreeFind<String, Integer> btf = getTreeFill();
+            btf.show();
+            System.out.println("Дерево симметрично? " + btf.isSymmetricTree());
+            System.out.println("Дерево зеркально? " + btf.isMirrorTree());
         }
 
     }
 
-    public static BinaryTreeFind<String, Integer> getFillTree(){
+    public static BinaryTreeFind<String, Integer> getTreeFill(){
         BinaryTreeFind<String, Integer> local = new BinaryTreeFind<>();
         Random rnd = new Random();
-        int j = (rnd.nextInt(200) - 100);
-        for (int i = 0; i < 65; i++, j = (rnd.nextInt(200) - 100)) {
-            String word = Integer.toString(j);
+
+        for (int i = 0; i < STEP; i++) {
+
+            int x = rnd.nextInt(200) - 100;
+
             if (i == 0){
-                word = "root";
+                x = 0;
+            } else {
+                while (local.contains(x)) {
+                    x = rnd.nextInt(200) - 100;
+                }
             }
-            local.insert(j, word);
+
+            String meta = Integer.toString(x);
+            if (i == 0){
+                meta = "root";
+            }
+
+            local.insert(x, meta);
+
         }
         return local;
     }
+
 
 }

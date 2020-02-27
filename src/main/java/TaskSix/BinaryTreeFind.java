@@ -40,6 +40,9 @@ public class BinaryTreeFind<D, K extends Integer> {
      * @return возвращает Node по ключу
      */
     private Node find(K key){
+        if (this.root == null){
+            return null;
+        }
         Node current = this.root;
         while (current.key != key){
             if (current.key.compareTo(key) > 0){    //если введённое число меньше внутреннего
@@ -52,6 +55,10 @@ public class BinaryTreeFind<D, K extends Integer> {
             }
         }
         return current;
+    }
+
+    public boolean contains(K key){
+        return (find(key) == null) ? false : true;
     }
 
     /**
