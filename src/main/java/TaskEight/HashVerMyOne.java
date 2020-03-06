@@ -1,44 +1,43 @@
 package TaskEight;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Objects;
 
 public class HashVerMyOne<T> {
 
-    private Line<T>[] array;
+    private ArrayList<LinkedList<T>> listHash;
     private final int SIZE;
-    private final int DOT;
 
     public HashVerMyOne(int SIZE) {
         this.SIZE = SIZE;
-        this.DOT = 7;
-        this.array = new Line[SIZE];
+        this.listHash = new ArrayList<>();
+        fillThisList();
     }
 
     public void add(T data){
         int indexArray = hashIndexRangeArray(Objects.hashCode(data));
-        if (this.array[indexArray] == null){
-            this.array[indexArray] = new Line<T>();
-        }
-        this.array[indexArray].add(data);
+        this.listHash.get(indexArray).add(data);
     }
 
     public void remove(T data){
         int indexArray = hashIndexRangeArray(Objects.hashCode(data));
-        if (this.array[indexArray] != null) {
-            this.array[indexArray].remove(data);
-        }
+        this.listHash.get(indexArray).remove(data);
     }
 
     public boolean contains(T data){
         int indexArray = hashIndexRangeArray(Objects.hashCode(data));
-        return (this.array[indexArray] == null) ? false : this.array[indexArray].contains(data);
+        return this.listHash.get(indexArray).contains(data);
     }
 
     private int hashIndexRangeArray(int key){
         return key % this.SIZE;
     }
 
-    private int hashDoubleIndexRange(int key){
-        return DOT - (key % DOT);
+    private void fillThisList(){
+        this.listHash.ensureCapacity(SIZE);
+        for (int i = 0; i < SIZE; i++) {
+            this.listHash.add(i, new LinkedList<>());
+        }
     }
 }

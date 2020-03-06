@@ -18,6 +18,5 @@ public class Main {
 
         System.out.println(hvmo.contains(19));
         System.out.println(hvmo.contains(254));
-
     }
 }
